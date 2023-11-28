@@ -78,8 +78,8 @@ function flagFalseClicksMines(event) {
 function flagTrueClicks(event) {
   let box = event.srcElement;
   if (box.innerText === "") {
-    box.innerText = "🇸🇬";
-  } else if (box.innerText === "🇸🇬") {
+    box.innerText = "🚩";
+  } else if (box.innerText === "🚩") {
     box.innerText = "";
   }
   return;
