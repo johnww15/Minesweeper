@@ -53,30 +53,46 @@ function createBoxes() {
     game.grid.push(rows);
   }
 }
-
+/*--------click functions--------*/
 function clickBox(event) {
   // to identify specific box being clicked
-  let box = event.srcElement;
+  let box = event.target;
   if (game.flagStatus === true) {
     // removed if statements for flag Status true into seperate function for clarity
-    flagTrueClicks(event);
+    flagTrueClicks(box);
   } else {
     if (game.flagStatus === false) {
-      flagFalseClicksMines(event);
+      flagFalseClicksMines(box);
+      flagFalseClicksNonMines(box);
     }
   }
 }
-function flagFalseClicksMines(event) {
-  let box = event.srcElement;
+
+function flagFalseClicksNonMines(box) {}
+
+function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {
     box.innerText = "💣";
+    alert("GAME OVER");
     game.gameOver = true;
+    showMines();
   }
-  console.log("yay no mine"); //! to include function for periphery mine counter
+  return;
 }
-
-function flagTrueClicks(event) {
-  let box = event.srcElement;
+//? Function to reveal mines when game ends
+function showMines() {
+  for (let y = 1; y < game.rows + 1; y++) {
+    for (let x = 1; x < game.columns + 1; x++) {
+      let box = game.grid[y - 1][x - 1];
+      if (game.mineLocation.includes(box.id)) {
+        box.innerText = "💣";
+        box.style.backgroundColor = "red";
+      }
+    }
+  }
+}
+//? Places and removes flags when flag button is toggled on
+function flagTrueClicks(box) {
   if (box.innerText === "") {
     box.innerText = "🚩";
   } else if (box.innerText === "🚩") {
@@ -85,11 +101,11 @@ function flagTrueClicks(event) {
   return;
 }
 
+/*----flag button functions-----*/
 //? Place event listener on flag button
 function flagListener() {
   flag.addEventListener("click", clickFlag);
 }
-
 //? Program flag button to toggle flag status in game constant
 function clickFlag() {
   if (game.flagStatus === false) {
@@ -100,7 +116,6 @@ function clickFlag() {
     flag.style.backgroundColor = "lightgray";
   }
 }
-
 function activateButtonListeners() {
   flagListener();
 }
