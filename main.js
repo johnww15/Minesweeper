@@ -68,25 +68,60 @@ function clickBox(event) {
   }
 }
 
-function flagFalseClicksNonMines(box) {}
+function flagFalseClicksNonMines(box) {
+  //acquire position of box's Y and X values in array index form for checking purposes later
+  let boxPosition = box.id.split("."); //received as string, must convert to integers for manipulation later
+  let boxArrY = parseInt(boxPosition[0]);
+  let boxArrX = parseInt(boxPosition[1]);
+  let totalMinesFound = 0;
+  console.log(totalMinesFound, boxPosition, boxArrY, boxArrX);
+
+  totalMinesFound += checkBox(boxArrY - 1, boxArrX - 1); //Check top left box
+  totalMinesFound += checkBox(boxArrY - 1, boxArrX); //Check top middle box
+  totalMinesFound += checkBox(boxArrY - 1, boxArrX + 1); //Check top right box
+  //------//
+  totalMinesFound += checkBox(boxArrY, boxArrX - 1); //Check left box
+  totalMinesFound += checkBox(boxArrY, boxArrX + 1); //Check right box
+  //------//
+  totalMinesFound += checkBox(boxArrY + 1, boxArrX - 1); //Check bottom left box
+  totalMinesFound += checkBox(boxArrY + 1, boxArrX); //Check bottom middle box
+  totalMinesFound += checkBox(boxArrY + 1, boxArrX + 1); //Check bottom right box
+
+  box.innerText = totalMinesFound.toString();
+} //include check boxes function
+
+//pass box coordinates to this function to be checked
+function checkBox(y, x) {
+  if (y < 1 || x < 1 || y > game.rows || x > game.columns) {
+    console.log("checked 0");
+    return 0;
+  } else {
+    if (game.mineLocation.includes(y.toString() + "." + x.toString())) {
+      console.log("checked 1");
+      return 1;
+    }
+  }
+  return 0;
+}
 
 function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {
     box.innerText = "💣";
     alert("GAME OVER");
     game.gameOver = true;
-    showMines();
+    showMines(box);
   }
   return;
 }
 //? Function to reveal mines when game ends
-function showMines() {
+function showMines(box) {
   for (let y = 1; y < game.rows + 1; y++) {
     for (let x = 1; x < game.columns + 1; x++) {
-      let box = game.grid[y - 1][x - 1];
+      //search through grid[] with all existing saved mine locations and reveal them
+      let mineFound = game.grid[y - 1][x - 1];
       if (game.mineLocation.includes(box.id)) {
-        box.innerText = "💣";
-        box.style.backgroundColor = "red";
+        mineFound.innerText = "💣";
+        mineFound.style.backgroundColor = "red";
       }
     }
   }
