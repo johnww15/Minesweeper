@@ -62,12 +62,14 @@ function clickBox(event) {
     flagTrueClicks(box);
   } else {
     if (game.flagStatus === false) {
-      flagFalseClicksMines(box);
-      flagFalseClicksNonMines(box);
+      if (flagFalseClicksMines(box)) {
+        flagFalseClicksNonMines(box);
+      }
     }
   }
 }
 
+//? function checks 8 boxes surrounding clicked box
 function flagFalseClicksNonMines(box) {
   //acquire position of box's Y and X values in array index form for checking purposes later
   let boxPosition = box.id.split("."); //received as string, must convert to integers for manipulation later
@@ -88,9 +90,8 @@ function flagFalseClicksNonMines(box) {
   totalMinesFound += checkBox(boxArrY + 1, boxArrX + 1); //Check bottom right box
 
   box.innerText = totalMinesFound.toString();
-} //include check boxes function
-
-//pass box coordinates to this function to be checked
+}
+//? pass box coordinates to this function to be checked
 function checkBox(y, x) {
   if (y < 1 || x < 1 || y > game.rows || x > game.columns) {
     console.log("checked 0");
@@ -103,23 +104,23 @@ function checkBox(y, x) {
   }
   return 0;
 }
-
+//? function checks for mines on the clicked box and initiates gameover status
 function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {
-    box.innerText = "💣";
     alert("GAME OVER");
     game.gameOver = true;
-    showMines(box);
+    showMines();
+    return false;
   }
-  return;
+  return true;
 }
 //? Function to reveal mines when game ends
-function showMines(box) {
+function showMines() {
   for (let y = 1; y < game.rows + 1; y++) {
     for (let x = 1; x < game.columns + 1; x++) {
       //search through grid[] with all existing saved mine locations and reveal them
       let mineFound = game.grid[y - 1][x - 1];
-      if (game.mineLocation.includes(box.id)) {
+      if (game.mineLocation.includes(mineFound.id)) {
         mineFound.innerText = "💣";
         mineFound.style.backgroundColor = "red";
       }
