@@ -162,6 +162,9 @@ function showMines() {
 }
 //? Places and removes flags when flag button is toggled on
 function flagTrueClicks(box) {
+  if (box.classList.contains("clicked")) {
+    return;
+  }
   if (box.innerText === "") {
     box.innerText = "🚩";
   } else if (box.innerText === "🚩") {
