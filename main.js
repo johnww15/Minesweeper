@@ -24,14 +24,10 @@ const flag = document.getElementById("flag");
 /*------ game logic functions ------*/
 
 function randomMines() {
-  game.mineLocation.push("2.2");
-  game.mineLocation.push("2.3");
-  game.mineLocation.push("2.4");
-  game.mineLocation.push("3.2");
-  game.mineLocation.push("3.4");
-  game.mineLocation.push("4.2");
-  game.mineLocation.push("4.3");
-  game.mineLocation.push("4.4");
+  game.mineLocation.push("1.1");
+  game.mineLocation.push("1.5");
+  game.mineLocation.push("3.5");
+  game.mineLocation.push("5.1");
 }
 
 /*------ render functions ------*/
@@ -57,53 +53,90 @@ function createBoxes() {
 function clickBox(event) {
   // to identify specific box being clicked
   let box = event.target;
+  let boxPosition = box.id.split("."); //received as string, must convert to integers for manipulation later
+  let boxArrY = parseInt(boxPosition[0]);
+  let boxArrX = parseInt(boxPosition[1]);
   if (game.flagStatus === true) {
     // removed if statements for flag Status true into seperate function for clarity
     flagTrueClicks(box);
   } else {
     if (game.flagStatus === false) {
       if (flagFalseClicksMines(box)) {
-        flagFalseClicksNonMines(box);
+        //acquire position of box's Y and X values in array index form for checking purposes later
+        flagFalseClicksNonMines(boxArrY, boxArrX);
       }
     }
   }
 }
 
 //? function checks 8 boxes surrounding clicked box
-function flagFalseClicksNonMines(box) {
-  //acquire position of box's Y and X values in array index form for checking purposes later
-  let boxPosition = box.id.split("."); //received as string, must convert to integers for manipulation later
-  let boxArrY = parseInt(boxPosition[0]);
-  let boxArrX = parseInt(boxPosition[1]);
-  let totalMinesFound = 0;
-  console.log(totalMinesFound, boxPosition, boxArrY, boxArrX);
+function flagFalseClicksNonMines(boxArrY, boxArrX) {
+  //include if limitation to stop function when box out of grid to reduce strain
+  if (
+    boxArrY < 1 ||
+    boxArrX < 1 ||
+    boxArrY > game.rows ||
+    boxArrX > game.columns
+  ) {
+    return;
+  }
+  //include clicked class to reduce strain
+  if (game.grid[boxArrY - 1][boxArrX - 1].classList.contains("clicked")) {
+    return;
+  } else {
+    game.grid[boxArrY - 1][boxArrX - 1].classList.add("clicked"); //prevent maximum call stack size by using "clicked" class
+    let totalMinesFound = 0;
+    //------//
+    totalMinesFound += checkBox(boxArrY - 1, boxArrX - 1); //Check top left box
+    totalMinesFound += checkBox(boxArrY - 1, boxArrX); //Check top middle box
+    totalMinesFound += checkBox(boxArrY - 1, boxArrX + 1); //Check top right box
+    //------//
+    totalMinesFound += checkBox(boxArrY, boxArrX - 1); //Check left box
+    totalMinesFound += checkBox(boxArrY, boxArrX + 1); //Check right box
+    //------//
+    totalMinesFound += checkBox(boxArrY + 1, boxArrX - 1); //Check bottom left box
+    totalMinesFound += checkBox(boxArrY + 1, boxArrX); //Check bottom middle box
+    totalMinesFound += checkBox(boxArrY + 1, boxArrX + 1); //Check bottom right box
+    //------//
+    if (totalMinesFound > 0) {
+      game.grid[boxArrY - 1][boxArrX - 1].innerText = totalMinesFound; //show number of surrounding mines
+      game.grid[boxArrY - 1][boxArrX - 1].classList.add(
+        `num${totalMinesFound}`
+      ); //add class for CSS styling purposes
+    } else {
+      console.log("it's flooding time", boxArrY, boxArrX);
 
-  totalMinesFound += checkBox(boxArrY - 1, boxArrX - 1); //Check top left box
-  totalMinesFound += checkBox(boxArrY - 1, boxArrX); //Check top middle box
-  totalMinesFound += checkBox(boxArrY - 1, boxArrX + 1); //Check top right box
-  //------//
-  totalMinesFound += checkBox(boxArrY, boxArrX - 1); //Check left box
-  totalMinesFound += checkBox(boxArrY, boxArrX + 1); //Check right box
-  //------//
-  totalMinesFound += checkBox(boxArrY + 1, boxArrX - 1); //Check bottom left box
-  totalMinesFound += checkBox(boxArrY + 1, boxArrX); //Check bottom middle box
-  totalMinesFound += checkBox(boxArrY + 1, boxArrX + 1); //Check bottom right box
+      //? when flooding, if tile is 0, assumes player clicks surrounding squares as well
+      flagFalseClicksNonMines(boxArrY - 1, boxArrX - 1); //"click" top left box
+      flagFalseClicksNonMines(boxArrY - 1, boxArrX); //"click" top box
+      flagFalseClicksNonMines(boxArrY - 1, boxArrX + 1); //"click" top right box
 
-  box.innerText = totalMinesFound.toString();
+      flagFalseClicksNonMines(boxArrY, boxArrX - 1); //"click" left box
+      flagFalseClicksNonMines(boxArrY, boxArrX + 1); //"click" right right box
+
+      flagFalseClicksNonMines(boxArrY + 1, boxArrX - 1); //"click" bottom left box
+      flagFalseClicksNonMines(boxArrY + 1, boxArrX); //"click" bottom box
+      flagFalseClicksNonMines(boxArrY + 1, boxArrX + 1); //"click" bottom right box
+      console.log("fully flooded", boxArrY, boxArrX);
+    }
+  }
 }
+
 //? pass box coordinates to this function to be checked
 function checkBox(y, x) {
   if (y < 1 || x < 1 || y > game.rows || x > game.columns) {
-    console.log("checked 0");
     return 0;
-  } else {
-    if (game.mineLocation.includes(y.toString() + "." + x.toString())) {
-      console.log("checked 1");
-      return 1;
-    }
+  }
+  // if (game.grid[y - 1][x - 1].classList.contains("clicked")) {
+  //  return 0;
+  //} else {
+  if (game.mineLocation.includes(y.toString() + "." + x.toString())) {
+    return 1;
   }
   return 0;
 }
+//}
+
 //? function checks for mines on the clicked box and initiates gameover status
 function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {

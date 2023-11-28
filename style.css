@@ -40,49 +40,49 @@ header {
 }
 
 /* style guide for numbers follows original minesweeper color scheme */
-.one {
+.num1 {
   color: blue;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.two {
+.num2 {
   color: green;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.three {
+.num3 {
   color: red;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.four {
+.num4 {
   color: navy;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.five {
+.num5 {
   color: maroon;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.six {
+.num6 {
   color: green;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.seven {
+.num7 {
   color: black;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 
-.eight {
+.num8 {
   color: gray;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
