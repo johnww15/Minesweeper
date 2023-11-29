@@ -69,6 +69,10 @@ function clickBox(event) {
     flagTrueClicks(box);
   } else {
     if (game.flagStatus === false) {
+      //prevent clicking on a pre-existing flag on the screen
+      if (box.classList.contains("flag-clicked")) {
+        return;
+      }
       if (flagFalseClicksMines(box)) {
         //acquire position of box's Y and X values in array index form for checking purposes later
         flagFalseClicksNonMines(boxArrY, boxArrX);
