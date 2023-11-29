@@ -64,7 +64,8 @@ function clickIntermediate() {
   game.columns = 15;
   game.mineRemaining = 40;
   game.difficult = "Intermediate";
-  minecounter.innerText = game.mineRemaining;
+  flagcounter.innerText = game.mineRemaining;
+  game.flagCounter = game.mineRemaining;
   grid.style.height = "750px";
   grid.style.width = "750px";
   startGame();
@@ -75,9 +76,10 @@ function clickExpert() {
   game.gameOver = false;
   game.rows = 20;
   game.columns = 20;
-  game.mineRemaining = 82;
+  game.mineRemaining = 80;
   game.difficult = "Expert";
-  minecounter.innerText = game.mineRemaining;
+  flagcounter.innerText = game.mineRemaining;
+  game.flagCounter = game.mineRemaining;
   grid.style.height = "1000px";
   grid.style.width = "1000px";
   startGame();
