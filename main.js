@@ -11,7 +11,7 @@ const game = {
   gameOver: false /* determine game start and end status */,
   //? mine constant
   mineLocation: [] /* save randomised mine locations here -> save as 2d array*/,
-  mineRemaining: 0 /* determine game progress -> reduce to 0 */,
+  mineRemaining: 4 /* determine game progress -> reduce to 0 */,
   //? flag constants
   flagStatus: false /* determine if player is placing flags or opening tiles */,
 };
@@ -84,12 +84,14 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
     if (game.grid[boxArrY - 1][boxArrX - 1].classList.contains("clicked")) {
       return;
     } else {
+      //prevent overlapping of flags with flooding feature
       if (
         game.grid[boxArrY - 1][boxArrX - 1].classList.contains("flag-clicked")
       ) {
         return;
       } else {
         game.grid[boxArrY - 1][boxArrX - 1].classList.add("clicked"); //prevent maximum call stack size by using "clicked" class
+        game.boxesClicked++;
         let totalMinesFound = 0;
         //------//
         totalMinesFound += checkBox(boxArrY - 1, boxArrX - 1); //Check top left box
@@ -124,6 +126,14 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
           flagFalseClicksNonMines(boxArrY + 1, boxArrX + 1); //"click" bottom right box
           console.log("fully flooded", boxArrY, boxArrX);
         }
+      }
+      if (game.boxesClicked === game.rows * game.columns - game.mineRemaining) {
+        console.log(
+          "all non-mine boxes clicked",
+          game.boxesClicked,
+          "game is won"
+        );
+        game.gameOver = true;
       }
     }
   }
