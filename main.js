@@ -29,15 +29,12 @@ const flagcounter = document.getElementById("mineCounter");
 function beginnerListener() {
   beginner.addEventListener("click", clickBeginner);
 }
-
 function intermediateListener() {
   intermediate.addEventListener("click", clickIntermediate);
 }
-
 function expertListener() {
   expert.addEventListener("click", clickExpert);
 }
-
 function resetBox() {
   grid.innerHTML = "";
   game.grid = [];
@@ -57,35 +54,32 @@ function clickBeginner() {
   grid.style.width = "500px";
   startGame();
 }
-
 function clickIntermediate() {
   resetBox();
   game.gameOver = false;
   game.rows = 15;
   game.columns = 15;
   game.mineRemaining = 40;
-  game.difficult = "Intermediate";
+  game.difficulty = "Intermediate";
   flagcounter.innerText = game.mineRemaining;
   game.flagCounter = game.mineRemaining;
   grid.style.height = "750px";
   grid.style.width = "750px";
   startGame();
 }
-
 function clickExpert() {
   resetBox();
   game.gameOver = false;
   game.rows = 20;
   game.columns = 20;
   game.mineRemaining = 80;
-  game.difficult = "Expert";
+  game.difficulty = "Expert";
   flagcounter.innerText = game.mineRemaining;
   game.flagCounter = game.mineRemaining;
   grid.style.height = "1000px";
   grid.style.width = "1000px";
   startGame();
 }
-
 /*------ game logic functions ------*/
 function randomMines() {
   for (let i = 0; i < game.mineRemaining; i++) {
