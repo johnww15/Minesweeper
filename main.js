@@ -3,17 +3,18 @@
 /*------ state variables ------*/
 const game = {
   //? game constants
-  difficulty: 0 /* determine level difficult, grid size and number of mines */,
+  difficulty: "" /* determine level difficult, grid size and number of mines */,
   grid: [],
-  rows: 5,
-  columns: 5,
+  rows: 0,
+  columns: 0,
   boxesClicked: 0 /* determine game progress -> climb to grid size */,
   gameOver: false /* determine game start and end status */,
   //? mine constant
   mineLocation: [] /* save randomised mine locations here -> save as 2d array*/,
-  mineRemaining: 4 /* determine game progress -> reduce to 0 */,
+  mineRemaining: 0 /* determine game progress -> reduce to 0 */,
   //? flag constants
   flagStatus: false /* determine if player is placing flags or opening tiles */,
+  flagCounter: 0,
 };
 
 /*------ cached UI elements ------*/
@@ -23,6 +24,7 @@ const intermediate = document.getElementById("intermediateButton");
 const expert = document.getElementById("expertButton");
 const custom = document.getElementById("customButton");
 const grid = document.getElementById("grid");
+const flagcounter = document.getElementById("mineCounter");
 /*------ event listeners ------*/
 function beginnerListener() {
   beginner.addEventListener("click", clickBeginner);
@@ -36,35 +38,48 @@ function expertListener() {
   expert.addEventListener("click", clickExpert);
 }
 
+function resetBox() {
+  grid.innerHTML = "";
+  game.grid = [];
+  game.mineLocations = "";
+}
 function clickBeginner() {
+  resetBox();
+  game.gameOver = false;
   game.rows = 10;
   game.columns = 10;
   game.mineRemaining = 10;
+  game.difficulty = "Beginner";
+  flagcounter.innerText = game.mineRemaining;
+  game.flagCounter = game.mineRemaining;
   grid.style.height = "500px";
   grid.style.width = "500px";
-  console.log("beginner activated");
   startGame();
 }
 
 function clickIntermediate() {
+  resetBox();
+  game.gameOver = false;
   game.rows = 15;
   game.columns = 15;
-  game.mineRemaining = 30;
+  game.mineRemaining = 40;
+  game.difficult = "Intermediate";
+  minecounter.innerText = game.mineRemaining;
   grid.style.height = "750px";
   grid.style.width = "750px";
-
-  console.log("intermediate activated");
   startGame();
 }
 
 function clickExpert() {
+  resetBox();
+  game.gameOver = false;
   game.rows = 20;
   game.columns = 20;
-  game.mineRemaining = 40;
+  game.mineRemaining = 82;
+  game.difficult = "Expert";
+  minecounter.innerText = game.mineRemaining;
   grid.style.height = "1000px";
   grid.style.width = "1000px";
-
-  console.log("expert activated");
   startGame();
 }
 
@@ -172,8 +187,6 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
             `num${totalMinesFound}`
           ); //add class for CSS styling purposes
         } else {
-          console.log("it's flooding time", boxArrY, boxArrX);
-
           //? when flooding, if tile is 0, assumes player clicks surrounding squares as well
           flagFalseClicksNonMines(boxArrY - 1, boxArrX - 1); //"click" top left box
           flagFalseClicksNonMines(boxArrY - 1, boxArrX); //"click" top box
@@ -185,7 +198,6 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
           flagFalseClicksNonMines(boxArrY + 1, boxArrX - 1); //"click" bottom left box
           flagFalseClicksNonMines(boxArrY + 1, boxArrX); //"click" bottom box
           flagFalseClicksNonMines(boxArrY + 1, boxArrX + 1); //"click" bottom right box
-          console.log("fully flooded", boxArrY, boxArrX);
         }
       }
       if (game.boxesClicked === game.rows * game.columns - game.mineRemaining) {
@@ -239,12 +251,19 @@ function showMines() {
 function flagTrueClicks(box) {
   if (box.classList.contains("clicked")) {
     return;
+  } //included to prevent number of flags placed to exceed number of mines
+  if (game.flagCounter === 0 && box.innerText === "") {
+    return;
   }
   if (box.innerText === "") {
     box.innerText = "🚩";
+    flagcounter.innerText--;
+    game.flagCounter--;
     box.classList.add("flag-clicked");
   } else if (box.innerText === "🚩") {
     box.innerText = "";
+    flagcounter.innerText++;
+    game.flagCounter++;
     box.classList.remove("flag-clicked");
   }
   return;
