@@ -24,14 +24,19 @@ const flag = document.getElementById("flag");
 /*------ game logic functions ------*/
 
 function randomMines() {
-  game.mineLocation.push("1.1");
-  game.mineLocation.push("1.5");
-  game.mineLocation.push("3.5");
-  game.mineLocation.push("5.1");
+  for (let i = 0; i < game.mineRemaining; i++) {
+    let randomYInt = Math.floor(Math.random() * game.rows) + 1;
+    let randomXInt = Math.floor(Math.random() * game.columns) + 1;
+    let randomYX = randomYInt.toString() + "." + randomXInt.toString();
+    if (game.mineLocation.includes(randomYX)) {
+      i--;
+    } else {
+      game.mineLocation.push(randomYX);
+    }
+  }
 }
 
 /*------ render functions ------*/
-
 //? Create boxes in grid
 function createBoxes() {
   for (let y = 1; y < game.rows + 1; y++) {
@@ -80,7 +85,6 @@ function clickBox(event) {
     }
   }
 }
-
 //? function checks 8 boxes surrounding clicked box
 function flagFalseClicksNonMines(boxArrY, boxArrX) {
   //include if limitation to stop function when box out of grid to reduce strain
@@ -150,7 +154,6 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
     }
   }
 }
-
 //? pass box coordinates to this function to be checked
 function checkBox(y, x) {
   if (y < 1 || x < 1 || y > game.rows || x > game.columns) {
@@ -164,8 +167,6 @@ function checkBox(y, x) {
   }
   return 0;
 }
-//}
-
 //? function checks for mines on the clicked box and initiates gameover status
 function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {
