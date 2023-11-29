@@ -18,11 +18,57 @@ const game = {
 
 /*------ cached UI elements ------*/
 const flag = document.getElementById("flag");
-
+const beginner = document.getElementById("beginnerButton");
+const intermediate = document.getElementById("intermediateButton");
+const expert = document.getElementById("expertButton");
+const custom = document.getElementById("customButton");
+const grid = document.getElementById("grid");
 /*------ event listeners ------*/
+function beginnerListener() {
+  beginner.addEventListener("click", clickBeginner);
+}
+
+function intermediateListener() {
+  intermediate.addEventListener("click", clickIntermediate);
+}
+
+function expertListener() {
+  expert.addEventListener("click", clickExpert);
+}
+
+function clickBeginner() {
+  game.rows = 10;
+  game.columns = 10;
+  game.mineRemaining = 10;
+  grid.style.height = "500px";
+  grid.style.width = "500px";
+  console.log("beginner activated");
+  startGame();
+}
+
+function clickIntermediate() {
+  game.rows = 15;
+  game.columns = 15;
+  game.mineRemaining = 30;
+  grid.style.height = "750px";
+  grid.style.width = "750px";
+
+  console.log("intermediate activated");
+  startGame();
+}
+
+function clickExpert() {
+  game.rows = 20;
+  game.columns = 20;
+  game.mineRemaining = 40;
+  grid.style.height = "1000px";
+  grid.style.width = "1000px";
+
+  console.log("expert activated");
+  startGame();
+}
 
 /*------ game logic functions ------*/
-
 function randomMines() {
   for (let i = 0; i < game.mineRemaining; i++) {
     let randomYInt = Math.floor(Math.random() * game.rows) + 1;
@@ -35,7 +81,6 @@ function randomMines() {
     }
   }
 }
-
 /*------ render functions ------*/
 //? Create boxes in grid
 function createBoxes() {
@@ -222,12 +267,18 @@ function clickFlag() {
 }
 function activateButtonListeners() {
   flagListener();
+  beginnerListener();
+  intermediateListener();
+  expertListener();
 }
 
 /*------ main function ------*/
 function main() {
-  createBoxes();
   activateButtonListeners();
+}
+
+function startGame() {
+  createBoxes();
   randomMines();
 }
 
