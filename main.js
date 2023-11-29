@@ -79,45 +79,52 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
     boxArrX > game.columns
   ) {
     return;
-  }
-  //include clicked class to reduce strain
-  if (game.grid[boxArrY - 1][boxArrX - 1].classList.contains("clicked")) {
-    return;
   } else {
-    game.grid[boxArrY - 1][boxArrX - 1].classList.add("clicked"); //prevent maximum call stack size by using "clicked" class
-    let totalMinesFound = 0;
-    //------//
-    totalMinesFound += checkBox(boxArrY - 1, boxArrX - 1); //Check top left box
-    totalMinesFound += checkBox(boxArrY - 1, boxArrX); //Check top middle box
-    totalMinesFound += checkBox(boxArrY - 1, boxArrX + 1); //Check top right box
-    //------//
-    totalMinesFound += checkBox(boxArrY, boxArrX - 1); //Check left box
-    totalMinesFound += checkBox(boxArrY, boxArrX + 1); //Check right box
-    //------//
-    totalMinesFound += checkBox(boxArrY + 1, boxArrX - 1); //Check bottom left box
-    totalMinesFound += checkBox(boxArrY + 1, boxArrX); //Check bottom middle box
-    totalMinesFound += checkBox(boxArrY + 1, boxArrX + 1); //Check bottom right box
-    //------//
-    if (totalMinesFound > 0) {
-      game.grid[boxArrY - 1][boxArrX - 1].innerText = totalMinesFound; //show number of surrounding mines
-      game.grid[boxArrY - 1][boxArrX - 1].classList.add(
-        `num${totalMinesFound}`
-      ); //add class for CSS styling purposes
+    //include clicked class to reduce strain
+    if (game.grid[boxArrY - 1][boxArrX - 1].classList.contains("clicked")) {
+      return;
     } else {
-      console.log("it's flooding time", boxArrY, boxArrX);
+      if (
+        game.grid[boxArrY - 1][boxArrX - 1].classList.contains("flag-clicked")
+      ) {
+        return;
+      } else {
+        game.grid[boxArrY - 1][boxArrX - 1].classList.add("clicked"); //prevent maximum call stack size by using "clicked" class
+        let totalMinesFound = 0;
+        //------//
+        totalMinesFound += checkBox(boxArrY - 1, boxArrX - 1); //Check top left box
+        totalMinesFound += checkBox(boxArrY - 1, boxArrX); //Check top middle box
+        totalMinesFound += checkBox(boxArrY - 1, boxArrX + 1); //Check top right box
+        //------//
+        totalMinesFound += checkBox(boxArrY, boxArrX - 1); //Check left box
+        totalMinesFound += checkBox(boxArrY, boxArrX + 1); //Check right box
+        //------//
+        totalMinesFound += checkBox(boxArrY + 1, boxArrX - 1); //Check bottom left box
+        totalMinesFound += checkBox(boxArrY + 1, boxArrX); //Check bottom middle box
+        totalMinesFound += checkBox(boxArrY + 1, boxArrX + 1); //Check bottom right box
+        //------//
+        if (totalMinesFound > 0) {
+          game.grid[boxArrY - 1][boxArrX - 1].innerText = totalMinesFound; //show number of surrounding mines
+          game.grid[boxArrY - 1][boxArrX - 1].classList.add(
+            `num${totalMinesFound}`
+          ); //add class for CSS styling purposes
+        } else {
+          console.log("it's flooding time", boxArrY, boxArrX);
 
-      //? when flooding, if tile is 0, assumes player clicks surrounding squares as well
-      flagFalseClicksNonMines(boxArrY - 1, boxArrX - 1); //"click" top left box
-      flagFalseClicksNonMines(boxArrY - 1, boxArrX); //"click" top box
-      flagFalseClicksNonMines(boxArrY - 1, boxArrX + 1); //"click" top right box
+          //? when flooding, if tile is 0, assumes player clicks surrounding squares as well
+          flagFalseClicksNonMines(boxArrY - 1, boxArrX - 1); //"click" top left box
+          flagFalseClicksNonMines(boxArrY - 1, boxArrX); //"click" top box
+          flagFalseClicksNonMines(boxArrY - 1, boxArrX + 1); //"click" top right box
 
-      flagFalseClicksNonMines(boxArrY, boxArrX - 1); //"click" left box
-      flagFalseClicksNonMines(boxArrY, boxArrX + 1); //"click" right right box
+          flagFalseClicksNonMines(boxArrY, boxArrX - 1); //"click" left box
+          flagFalseClicksNonMines(boxArrY, boxArrX + 1); //"click" right right box
 
-      flagFalseClicksNonMines(boxArrY + 1, boxArrX - 1); //"click" bottom left box
-      flagFalseClicksNonMines(boxArrY + 1, boxArrX); //"click" bottom box
-      flagFalseClicksNonMines(boxArrY + 1, boxArrX + 1); //"click" bottom right box
-      console.log("fully flooded", boxArrY, boxArrX);
+          flagFalseClicksNonMines(boxArrY + 1, boxArrX - 1); //"click" bottom left box
+          flagFalseClicksNonMines(boxArrY + 1, boxArrX); //"click" bottom box
+          flagFalseClicksNonMines(boxArrY + 1, boxArrX + 1); //"click" bottom right box
+          console.log("fully flooded", boxArrY, boxArrX);
+        }
+      }
     }
   }
 }
@@ -167,8 +174,10 @@ function flagTrueClicks(box) {
   }
   if (box.innerText === "") {
     box.innerText = "🚩";
+    box.classList.add("flag-clicked");
   } else if (box.innerText === "🚩") {
     box.innerText = "";
+    box.classList.remove("flag-clicked");
   }
   return;
 }
