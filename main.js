@@ -41,7 +41,8 @@ function expertListener() {
 function resetBox() {
   grid.innerHTML = "";
   game.grid = [];
-  game.mineLocations = "";
+  game.mineLocation = [];
+  game.boxesClicked = 0;
 }
 function clickBeginner() {
   resetBox();
@@ -203,11 +204,7 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
         }
       }
       if (game.boxesClicked === game.rows * game.columns - game.mineRemaining) {
-        console.log(
-          "all non-mine boxes clicked",
-          game.boxesClicked,
-          "game is won"
-        );
+        console.log("all non-mine boxes clicked", { game }, "game is won");
         game.gameOver = true;
       }
     }
@@ -280,10 +277,10 @@ function flagListener() {
 function clickFlag() {
   if (game.flagStatus === false) {
     game.flagStatus = true;
-    flag.style.backgroundColor = "gray";
+    flag.style.backgroundColor = "lightgray";
   } else {
     game.flagStatus = false;
-    flag.style.backgroundColor = "lightgray";
+    flag.style.backgroundColor = "gray";
   }
 }
 function activateButtonListeners() {

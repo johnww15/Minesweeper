@@ -14,7 +14,7 @@ header {
   width: 500px;
   height: 500px;
   border: 5px solid black;
-  background-color: lightgray;
+  background-color: gray;
   /* centering grid on website */
   margin: 0 auto;
   display: flex;
@@ -35,7 +35,7 @@ header {
 
 .clicked {
   /* change background color to identify clicked boxes */
-  background-color: gray;
+  background-color: lightgray;
 }
 
 /* style guide for numbers follows original minesweeper color scheme */
