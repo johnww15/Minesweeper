@@ -56,6 +56,14 @@ function clickBox(event) {
   let boxPosition = box.id.split("."); //received as string, must convert to integers for manipulation later
   let boxArrY = parseInt(boxPosition[0]);
   let boxArrX = parseInt(boxPosition[1]);
+  //introduce if statement to prevent function from operating if box is clicked/game is over
+  if (box.classList.contains("clicked")) {
+    return;
+  } else {
+    if (game.gameOver === true) {
+      return;
+    }
+  }
   if (game.flagStatus === true) {
     // removed if statements for flag Status true into seperate function for clarity
     flagTrueClicks(box);
