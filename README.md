@@ -96,21 +96,21 @@ In order to create the final product, the game had to be broken down into multip
 
 **Declaring the state variables**
 
-![State-Variable.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/gameobject.png)
+![State-Variable.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/gameobject.png?raw=true)
 
 - Certain variables were planned at the beginning to be used later on as development stages progressed.
 - The location of mines as well as the creation of the grid were saved as arrays throughout the game
 
 **Creating the grid**
 
-![Grid-creation.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/createbox.png)
+![Grid-creation.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/createbox.png?raw=true)
 
 - The first loop was to create the y variables (the number of squares starting from the top) in ascending order and saved into an array
 - The second loop was to create the x variable (the number of squares starting from the left) in ascending order, creating a string output with y, appending it into the HMTL and adding an eventlistener to each created square
 
 **Main clicking function**
 
-![Main-clicking-function.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/mainclick.png)
+![Main-clicking-function.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/mainclick.png?raw=true)
 
 - Majority of the game's complexity is within this function
 - This function is triggered whenever a player clicks on a square which is not a mine. The 2 possibilities of the square having adjacent squares with mines or a square with no adjacent square with mines may occur.
@@ -121,15 +121,15 @@ In order to create the final product, the game had to be broken down into multip
 
 **Checking square function**
 
-![Checking-square-function.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/checkbox.png)
+![Checking-square-function.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/checkbox.png?raw=true)
 
 - This function is called by the main click function (shown above)
 - In doing so, this function checks on it's given square according to arguments provided and returns a value of 1 if true
 
 **(Stretch Goal) Randomised levels**
 
-![Random-game-1.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/possiblerandom1.png)
-![Random-game-2.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/possiblerandom2.png)
+![Random-game-1.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/possiblerandom1.png?raw=true)
+![Random-game-2.js file] (https://github.com/johnww15/Minesweeper/blob/main/Resources/possiblerandom2.png?raw=true)
 
 - A random level feature was included which will randomise the height, width and number of mines at the beginning of the round
 - This allows for the possibility of an extremely easy game or a "close to impossible" game to be rendered
