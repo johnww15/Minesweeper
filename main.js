@@ -1,5 +1,4 @@
 /*------ constants ------*/
-
 /*------ state variables ------*/
 const game = {
   //? game constants
@@ -16,7 +15,6 @@ const game = {
   flagStatus: false /* determine if player is placing flags or opening tiles */,
   flagCounter: 0,
 };
-
 /*------ cached UI elements ------*/
 const flag = document.getElementById("flag");
 const beginner = document.getElementById("beginnerButton");
@@ -27,6 +25,11 @@ const grid = document.getElementById("grid");
 const flagcounter = document.getElementById("mineCounter");
 const selectdifficulty = document.getElementById("selectDifficulty");
 /*------ event listeners ------*/
+//? Place event listener on flag button
+function flagListener() {
+  flag.addEventListener("click", clickFlag);
+}
+//? Place event listeners for each difficulty level button
 function beginnerListener() {
   beginner.addEventListener("click", clickBeginner);
 }
@@ -39,12 +42,15 @@ function expertListener() {
 function randomListener() {
   random.addEventListener("click", clickRandom);
 }
+/*------ difficulty button functions ------*/
+//? Create reset function to allow resetting of the grid whenever difficulty buttons are clicked
 function resetBox() {
   grid.innerHTML = "";
   game.grid = [];
   game.mineLocation = [];
   game.boxesClicked = 0;
 }
+//? Create the event function which triggers whenever difficulty level buttons are clicked
 function clickBeginner() {
   resetBox();
   game.gameOver = false;
@@ -97,7 +103,7 @@ function clickRandom() {
   grid.style.width = `${game.columns * 50}px`;
   startGame();
 }
-
+//? Create simpler functions to trigger and calculate random integers for random difficulty level
 function randomDifficultyLimiter(x, y) {
   let total = 0;
   let totalMines = 0;
@@ -107,7 +113,6 @@ function randomDifficultyLimiter(x, y) {
   }
   return totalMines;
 }
-
 function randomRowsAndColumns() {
   let total = 0;
   while (total < 2) {
@@ -115,8 +120,43 @@ function randomRowsAndColumns() {
   }
   return total;
 }
+/*----flag button functions-----*/
+//? Places and removes flags when flag button is toggled on
+function flagTrueClicks(box) {
+  if (box.classList.contains("clicked")) {
+    return;
+  } //included to prevent number of flags placed to exceed number of mines
+  if (game.flagCounter === 0 && box.innerText === "") {
+    return;
+  }
+  if (box.innerText === "") {
+    box.innerText = "🚩";
+    flagcounter.innerText--;
+    game.flagCounter--;
+    box.classList.add("flag-clicked");
+  } else if (box.innerText === "🚩") {
+    box.innerText = "";
+    flagcounter.innerText++;
+    game.flagCounter++;
+    box.classList.remove("flag-clicked");
+  }
+  return;
+}
+//? Program flag button to toggle flag status in game constant
+function clickFlag() {
+  if (game.flagStatus === false) {
+    game.flagStatus = true;
+    flag.innerText = "Placing Flags";
+    flag.style.backgroundColor = "lightgray";
+  } else {
+    game.flagStatus = false;
+    flag.innerText = "Not Placing flags";
+    flag.style.backgroundColor = "gray";
+  }
+}
 
-/*------ game logic functions ------*/
+/*------ game logic (grid) functions ------*/
+//? Create a randomiser to randomise the location of mines whenever game starts
 function randomMines() {
   for (let i = 0; i < game.mineRemaining; i++) {
     let randomYInt = Math.floor(Math.random() * game.rows) + 1;
@@ -129,7 +169,6 @@ function randomMines() {
     }
   }
 }
-/*------ render functions ------*/
 //? Create boxes in grid
 function createBoxes() {
   for (let y = 1; y < game.rows + 1; y++) {
@@ -147,7 +186,8 @@ function createBoxes() {
     game.grid.push(rows);
   }
 }
-/*--------click functions--------*/
+/*--------game logic (click) functions--------*/
+//? Main event function whenever boxes are clicked in the game
 function clickBox(event) {
   // to identify specific box being clicked
   let box = event.target;
@@ -277,45 +317,8 @@ function showMines() {
     }
   }
 }
-//? Places and removes flags when flag button is toggled on
-function flagTrueClicks(box) {
-  if (box.classList.contains("clicked")) {
-    return;
-  } //included to prevent number of flags placed to exceed number of mines
-  if (game.flagCounter === 0 && box.innerText === "") {
-    return;
-  }
-  if (box.innerText === "") {
-    box.innerText = "🚩";
-    flagcounter.innerText--;
-    game.flagCounter--;
-    box.classList.add("flag-clicked");
-  } else if (box.innerText === "🚩") {
-    box.innerText = "";
-    flagcounter.innerText++;
-    game.flagCounter++;
-    box.classList.remove("flag-clicked");
-  }
-  return;
-}
-
-/*----flag button functions-----*/
-//? Place event listener on flag button
-function flagListener() {
-  flag.addEventListener("click", clickFlag);
-}
-//? Program flag button to toggle flag status in game constant
-function clickFlag() {
-  if (game.flagStatus === false) {
-    game.flagStatus = true;
-    flag.innerText = "Placing Flags";
-    flag.style.backgroundColor = "lightgray";
-  } else {
-    game.flagStatus = false;
-    flag.innerText = "Not Placing flags";
-    flag.style.backgroundColor = "gray";
-  }
-}
+/*------ main function ------*/
+//? Main function to consolidate all event listeners
 function activateButtonListeners() {
   flagListener();
   beginnerListener();
@@ -323,16 +326,14 @@ function activateButtonListeners() {
   expertListener();
   randomListener();
 }
-
-/*------ main function ------*/
+//? Function to trigger when browser is refreshed
 function main() {
   activateButtonListeners();
 }
-
+//? Function to trigger game start
 function startGame() {
   createBoxes();
   randomMines();
 }
-
 /*------ execute main function ------*/
 main();
