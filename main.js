@@ -201,7 +201,7 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
       if (game.boxesClicked === game.rows * game.columns - game.mineRemaining) {
         console.log("all non-mine boxes clicked", { game }, "game is won");
         game.gameOver = true;
-        flagcounter.innerText = "You won!";
+        flagcounter.innerText = "You won! 🤗";
       }
     }
   }
@@ -223,6 +223,7 @@ function checkBox(y, x) {
 function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {
     game.gameOver = true;
+    flagcounter.innerText = "You lost 🥺";
     showMines();
     return false;
   }
@@ -272,9 +273,11 @@ function flagListener() {
 function clickFlag() {
   if (game.flagStatus === false) {
     game.flagStatus = true;
+    flag.innerText = "Placing Flags";
     flag.style.backgroundColor = "lightgray";
   } else {
     game.flagStatus = false;
+    flag.innerText = "Not Placing flags";
     flag.style.backgroundColor = "gray";
   }
 }
