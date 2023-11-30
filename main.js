@@ -29,7 +29,7 @@ const selectdifficulty = document.getElementById("selectDifficulty");
 function flagListener() {
   flag.addEventListener("click", clickFlag);
 }
-//? Place event listeners for each difficulty level button
+//? Place event listeners on each difficulty level button
 function beginnerListener() {
   beginner.addEventListener("click", clickBeginner);
 }
@@ -286,9 +286,6 @@ function checkBox(y, x) {
   if (y < 1 || x < 1 || y > game.rows || x > game.columns) {
     return 0;
   }
-  // if (game.grid[y - 1][x - 1].classList.contains("clicked")) {
-  //  return 0;
-  //} else {
   if (game.mineLocation.includes(y.toString() + "." + x.toString())) {
     return 1;
   }

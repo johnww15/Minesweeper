@@ -56,6 +56,8 @@ The lose condition:
 
 - The player loses when he/she incorrectly clicks a mine which immediately ends the game.
 
+<br>
+
 ## How to play
 
 As the player goes about the game and clicks on squares they think are "safe", numbers will appear on the squares.
@@ -68,16 +70,18 @@ These numbers reveal the number of mines which are in the 8 adjacent squares. Pl
 
 In order to create the final product, the game had to be broken down into multiple components to be developed:
 
-- **Step 1** Create HTML template and base CSS styling
-- **Step 2** Generate Minesweeper grid using JS
-- **Step 3** Include event listeners to all interactable elements (buttons, grid etc.)
-- **Step 4** Allow flags to be placed without activating mines on "dangerous" squares
-- **Step 5** Create game logic of clicking on squares to reveal a number on adjacent squares
-- **Step 6** Create flooding feature when clicked square reveals no adjacent mines
-- **Step 7** Create randomiser for mines at the start of every game
-- **Step 8** Create pre-set level difficulties
-- **Step 9** Enable reset functionalities without refreshing browser page
-- **Step 10** (Stretch Goal) Create a randomised level
+- [x] **Step 1** Create HTML template and base CSS styling
+- [x] **Step 2** Generate Minesweeper grid using JS
+- [x] **Step 3** Include event listeners to all interactable elements (buttons, grid etc.)
+- [x] **Step 4** Allow flags to be placed without activating mines on "dangerous" squares
+- [x] **Step 5** Create game logic of clicking on squares to reveal a number on adjacent squares
+- [x] **Step 6** Create flooding feature when clicked square reveals no adjacent mines
+- [x] **Step 7** Create randomiser for mines at the start of every game
+- [x] **Step 8** Create pre-set level difficulties
+- [x] **Step 9** Enable reset functionalities without refreshing browser page
+- [x] **Step 10** (Stretch Goal) Create a randomised level
+
+<br>
 
 ## Key Learnings
 
@@ -85,6 +89,14 @@ In order to create the final product, the game had to be broken down into multip
 - Using a function to call itself resulted in multiple "Call stack size exceeded" errors without careful initial planning
 - Utilising CSS classes to restrict JS function triggers instead of simply using CSS for styling purposes
 - Constantly testing the output product to fix bugs before development continues
+
+<br>
+
+## Breakdown & Analysis of Code
+
+Declaring the state variables
+
+<br>
 
 ## Summary
 
@@ -94,14 +106,15 @@ Along the way, there was times when the vision had to change slightly to meet pr
 
 Through this project, it helped me realise having a perfectionist mindset during the development process can be detrimental to the overall project. By getting smaller functions to work and getting an overall cohesive product allowed me to return and finetune different areas better than sitting down and trying to solve a problem during the development itself.
 
+<br>
+
 ## References
 
 - [MineSweeper Info] (https://www.minesweeper.info/)
 - [JS documentations] (https://developer.mozilla.org/en-US/)
 - [JS tutorial] (https://www.w3schools.com/)
-- [Building Minesweeper with Javscript, HTML CSS] (https://www.youtube.com/watch?v=AfhfAxKFP-s)
-- [Minesweeper building guide] (https://www.codewithfaraz.com/content/134/learn-how-to-create-a-minesweeper-game-with-html-css-and-javascript)
 - [Minesweeper using Javascript] (https://iq.opengenus.org/minesweeper-game-using-js/)
+- [Building Minesweeper with Javscript, HTML CSS] (https://www.youtube.com/watch?v=AfhfAxKFP-s)
 - [Minesweeper in Javacsript] (https://www.101computing.net/minesweeper-in-javascript/)
 - ChatGPT
 - Stackoverflow
