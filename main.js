@@ -25,6 +25,7 @@ const expert = document.getElementById("expertButton");
 const custom = document.getElementById("customButton");
 const grid = document.getElementById("grid");
 const flagcounter = document.getElementById("mineCounter");
+const selectdifficulty = document.getElementById("selectDifficulty");
 /*------ event listeners ------*/
 function beginnerListener() {
   beginner.addEventListener("click", clickBeginner);
@@ -200,6 +201,7 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
       if (game.boxesClicked === game.rows * game.columns - game.mineRemaining) {
         console.log("all non-mine boxes clicked", { game }, "game is won");
         game.gameOver = true;
+        flagcounter.innerText = "You won!";
       }
     }
   }
@@ -220,7 +222,6 @@ function checkBox(y, x) {
 //? function checks for mines on the clicked box and initiates gameover status
 function flagFalseClicksMines(box) {
   if (game.mineLocation.includes(box.id)) {
-    alert("GAME OVER");
     game.gameOver = true;
     showMines();
     return false;

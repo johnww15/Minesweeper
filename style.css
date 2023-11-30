@@ -33,6 +33,7 @@ header {
   align-items: center;
 }
 
+
 .clicked {
   /* change background color to identify clicked boxes */
   background-color: lightgray;
