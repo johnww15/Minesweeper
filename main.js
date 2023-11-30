@@ -22,7 +22,7 @@ const flag = document.getElementById("flag");
 const beginner = document.getElementById("beginnerButton");
 const intermediate = document.getElementById("intermediateButton");
 const expert = document.getElementById("expertButton");
-const custom = document.getElementById("customButton");
+const random = document.getElementById("randomButton");
 const grid = document.getElementById("grid");
 const flagcounter = document.getElementById("mineCounter");
 const selectdifficulty = document.getElementById("selectDifficulty");
@@ -35,6 +35,9 @@ function intermediateListener() {
 }
 function expertListener() {
   expert.addEventListener("click", clickExpert);
+}
+function randomListener() {
+  random.addEventListener("click", clickRandom);
 }
 function resetBox() {
   grid.innerHTML = "";
@@ -81,6 +84,38 @@ function clickExpert() {
   grid.style.width = "1000px";
   startGame();
 }
+function clickRandom() {
+  resetBox();
+  game.gameOver = false;
+  game.rows = randomRowsAndColumns();
+  game.columns = randomRowsAndColumns();
+  game.mineRemaining = randomDifficultyLimiter(game.rows, game.columns);
+  game.difficulty = "Random";
+  flagcounter.innerText = game.mineRemaining;
+  game.flagCounter = game.mineRemaining;
+  grid.style.height = `${game.rows * 50}px`;
+  grid.style.width = `${game.columns * 50}px`;
+  startGame();
+}
+
+function randomDifficultyLimiter(x, y) {
+  let total = 0;
+  let totalMines = 0;
+  total = x * y;
+  while (totalMines < 2 || totalMines === total) {
+    totalMines = Math.floor(Math.random() * total);
+  }
+  return totalMines;
+}
+
+function randomRowsAndColumns() {
+  let total = 0;
+  while (total < 2) {
+    total = Math.floor(Math.random() * 20);
+  }
+  return total;
+}
+
 /*------ game logic functions ------*/
 function randomMines() {
   for (let i = 0; i < game.mineRemaining; i++) {
@@ -286,6 +321,7 @@ function activateButtonListeners() {
   beginnerListener();
   intermediateListener();
   expertListener();
+  randomListener();
 }
 
 /*------ main function ------*/
