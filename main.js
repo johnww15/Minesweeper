@@ -274,7 +274,6 @@ function flagFalseClicksNonMines(boxArrY, boxArrX) {
         }
       }
       if (game.boxesClicked === game.rows * game.columns - game.mineRemaining) {
-        console.log("all non-mine boxes clicked", { game }, "game is won");
         game.gameOver = true;
         flagcounter.innerText = "You won! 🤗";
       }
