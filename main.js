@@ -221,12 +221,9 @@ function clickBox(event) {
 //? function checks 8 boxes surrounding clicked box
 function flagFalseClicksNonMines(boxArrY, boxArrX) {
   //include if limitation to stop function when box out of grid to reduce strain
-  if (
-    boxArrY < 1 ||
-    boxArrX < 1 ||
-    boxArrY > game.rows ||
-    boxArrX > game.columns
-  ) {
+  const isOutsideGrid =
+    boxArrY < 1 || boxArrX < 1 || boxArrY > game.rows || boxArrX > game.columns;
+  if (isOutsideGrid) {
     return;
   } else {
     //include clicked class to reduce strain
