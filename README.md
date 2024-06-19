@@ -13,7 +13,7 @@
 **Stretch Goals**
 
 - Randomised game difficulty level
-- Custom input level feature for playrers to input their own level of difficulty
+- Custom input level feature for players to input their own level of difficulty
 - Styling to make the game more aesthetic
 - Right click flag placing function
 
